@@ -11,6 +11,7 @@ import com.backendless.Backendless
 import com.backendless.BackendlessUser
 import com.backendless.async.callback.AsyncCallback
 import com.backendless.exceptions.BackendlessFault
+import com.backendless.persistence.DataQueryBuilder
 import com.example.finalproject.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -54,6 +55,8 @@ class LoginActivity : AppCompatActivity() {
                     override fun handleResponse(user: BackendlessUser?) {
                         // user has been logged in
                         Log.d(TAG, "handleResponse: ${user?.getProperty("username")} has logged in")
+                        val userId = "${user!!.getProperty("objectId")}"
+                        login(userId)
                     }
 
                     override fun handleFault(fault: BackendlessFault) {
@@ -63,5 +66,11 @@ class LoginActivity : AppCompatActivity() {
                 }
             )
         }
+    }
+    private fun login(userId: String) {
+        val mainMenuIntent = Intent(this, MainMenuActivity::class.java)
+        mainMenuIntent.putExtra(EXTRA_USERID, userId)
+        startActivity(mainMenuIntent)
+        finish()
     }
 }
