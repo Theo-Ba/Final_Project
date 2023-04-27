@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Final Project</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="name">Name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="email">Email</string>
+    <string name="register">Register</string>
 </resources>
