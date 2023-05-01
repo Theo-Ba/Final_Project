@@ -16,6 +16,9 @@
         android:theme="@style/Theme.FinalProject"
         tools:targetApi="31">
         <activity
+            android:name=".CollectionActivity"
+            android:exported="false" />
+        <activity
             android:name=".RollActivity"
             android:exported="false" />
         <activity

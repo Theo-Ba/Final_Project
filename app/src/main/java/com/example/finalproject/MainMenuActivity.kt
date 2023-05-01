@@ -17,6 +17,11 @@ class MainMenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.buttonMainCollection.setOnClickListener {
+            val userId = intent.getStringExtra(LoginActivity.EXTRA_USERID)
+            val collectionIntent = Intent(this, CollectionActivity::class.java)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

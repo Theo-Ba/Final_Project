@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button_main_collection2"
+        android:id="@+id/button_main_roll"
         android:layout_width="44dp"
         android:layout_height="0dp"
         android:text="Roll"
