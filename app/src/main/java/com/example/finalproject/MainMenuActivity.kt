@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import com.example.finalproject.LoginActivity.Companion.EXTRA_USERID
 import com.example.finalproject.databinding.ActivityLoginBinding
 import com.example.finalproject.databinding.ActivityMainMenuBinding
 
@@ -21,6 +22,8 @@ class MainMenuActivity : AppCompatActivity() {
         binding.buttonMainCollection.setOnClickListener {
             val userId = intent.getStringExtra(LoginActivity.EXTRA_USERID)
             val collectionIntent = Intent(this, CollectionActivity::class.java)
+            collectionIntent.putExtra(EXTRA_USERID, userId)
+            startActivity(collectionIntent)
         }
     }
 
