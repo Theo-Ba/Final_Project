@@ -7,7 +7,7 @@
     tools:context=".RollActivity">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageView_roll_orb"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
@@ -31,7 +31,7 @@
         app:layout_constraintEnd_toStartOf="@+id/button_roll_roll10"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView_roll_orb" />
 
     <Button
         android:id="@+id/button_roll_roll10"
@@ -44,14 +44,14 @@
         app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView_roll_rates"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Rates: Character - 20%, Support Item - 50%, Support Character - 30%"
+        android:text="Rates: Character - 10%, Support Item - 50%, Support Character - 40%"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
