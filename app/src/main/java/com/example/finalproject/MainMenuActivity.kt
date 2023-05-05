@@ -25,6 +25,13 @@ class MainMenuActivity : AppCompatActivity() {
             collectionIntent.putExtra(EXTRA_USERID, userId)
             startActivity(collectionIntent)
         }
+
+        binding.buttonMainRoll.setOnClickListener {
+            val userId = intent.getStringExtra(LoginActivity.EXTRA_USERID)
+            val rollIntent = Intent(this,RollActivity::class.java)
+            rollIntent.putExtra(EXTRA_USERID, userId)
+            startActivity(rollIntent)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

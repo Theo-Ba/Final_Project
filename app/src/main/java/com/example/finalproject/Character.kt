@@ -15,7 +15,8 @@ data class Character(
     var archetype: String = "",
     var ability1Description: String = "",
     var ability2Description: String = "",
-    var id: Int = 0
+    var id: Int = 0,
+    var ownerId: String =""
 ) {
     fun getImageAddress() : String {
         var returnValue =""
@@ -23,7 +24,7 @@ data class Character(
         val characterDataCall = jikanRestService.getCharacterData(id.toString())
         characterDataCall.enqueue(object: Callback<CharacterData> {
             override fun onResponse(call: Call<CharacterData>, response: Response<CharacterData>) {
-                returnValue = response.body()!!.data.images.jpg.image_url
+                returnValue = response.body()?.data?.images?.jpg?.image_url.toString()
             }
 
             override fun onFailure(call: Call<CharacterData>, t: Throwable) {
@@ -39,7 +40,7 @@ data class Character(
         val characterDataCall = jikanRestService.getCharacterData(id.toString())
         characterDataCall.enqueue(object: Callback<CharacterData> {
             override fun onResponse(call: Call<CharacterData>, response: Response<CharacterData>) {
-                returnValue = response.body()!!.data.about
+                returnValue = response.body()?.data?.about.toString()
             }
 
             override fun onFailure(call: Call<CharacterData>, t: Throwable) {
@@ -55,7 +56,7 @@ data class Character(
         val characterDataCall = jikanRestService.getCharacterData(id.toString())
         characterDataCall.enqueue(object: Callback<CharacterData> {
             override fun onResponse(call: Call<CharacterData>, response: Response<CharacterData>) {
-                returnValue = response.body()!!.data.anime.title
+                returnValue = response.body()?.data?.anime?.title.toString()
             }
 
             override fun onFailure(call: Call<CharacterData>, t: Throwable) {
