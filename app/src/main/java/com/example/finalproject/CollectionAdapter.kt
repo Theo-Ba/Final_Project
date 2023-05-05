@@ -1,11 +1,15 @@
 package com.example.finalproject
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
+import kotlinx.coroutines.NonDisposableHandle.parent
+import weborb.util.ThreadContext.context
 
 class CollectionAdapter(var dataSet: MutableList<Character>) :
     RecyclerView.Adapter<CollectionAdapter.ViewHolder>() {
@@ -17,6 +21,7 @@ class CollectionAdapter(var dataSet: MutableList<Character>) :
         val textViewAbility2: TextView
         val imageViewIcon: ImageView
         val textViewClass: TextView
+        val context = view.getContext()
 
         init {
             textViewName = view.findViewById(R.id.textView_charItem_name)
@@ -31,7 +36,6 @@ class CollectionAdapter(var dataSet: MutableList<Character>) :
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.item_character_data, viewGroup, false)
-
         return ViewHolder(view)
     }
 
@@ -42,7 +46,8 @@ class CollectionAdapter(var dataSet: MutableList<Character>) :
         viewHolder.textViewAbility1.text = "${character.ability1}: ${character.ability1Description}"
         viewHolder.textViewAbility2.text = "${character.ability2}: ${character.ability2Description}"
         viewHolder.textViewClass.text = "${character.archetype}"
-        viewHolder.imageViewIcon
+        Picasso.with(viewHolder.context).load(character.getImageAddress()).fit()
+            .into(viewHolder.imageViewIcon)
     }
 
     override fun getItemCount() = dataSet.size
