@@ -53,6 +53,7 @@
         android:layout_marginBottom="16dp"
         android:text="Rates: Character - 10%, Support Item - 50%, Support Character - 40%"
         android:textAlignment="center"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -1,11 +1,13 @@
 package com.example.finalproject
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.NonDisposableHandle.parent
@@ -14,6 +16,10 @@ import weborb.util.ThreadContext.context
 class CollectionAdapter(var dataSet: MutableList<Character>) :
     RecyclerView.Adapter<CollectionAdapter.ViewHolder>() {
 
+    companion object {
+        val EXTRA_CHARACTER = "character"
+    }
+
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textViewName: TextView
         val textViewMaxHp: TextView
@@ -21,7 +27,7 @@ class CollectionAdapter(var dataSet: MutableList<Character>) :
         val textViewAbility2: TextView
         val imageViewIcon: ImageView
         val textViewClass: TextView
-        val context = view.getContext()
+        val layout: ConstraintLayout
 
         init {
             textViewName = view.findViewById(R.id.textView_charItem_name)
@@ -30,6 +36,7 @@ class CollectionAdapter(var dataSet: MutableList<Character>) :
             textViewAbility2 = view.findViewById(R.id.textView_charItem_ability2)
             imageViewIcon = view.findViewById(R.id.imageView_charItem_icon)
             textViewClass = view.findViewById(R.id.textView_charItem_class)
+            layout = view.findViewById(R.id.layout_charItem)
         }
     }
 
@@ -41,13 +48,20 @@ class CollectionAdapter(var dataSet: MutableList<Character>) :
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val character = dataSet[position]
+        val context = viewHolder.textViewClass.context
         viewHolder.textViewName.text = character.name
         viewHolder.textViewMaxHp.text = "Max Health: ${character.health}"
         viewHolder.textViewAbility1.text = "${character.ability1}: ${character.ability1Description}"
         viewHolder.textViewAbility2.text = "${character.ability2}: ${character.ability2Description}"
         viewHolder.textViewClass.text = "${character.archetype}"
-        Picasso.with(viewHolder.context).load(character.getImageAddress()).fit()
+        Picasso.with(context).load(character.imageAddress).fit()
             .into(viewHolder.imageViewIcon)
+
+        viewHolder.layout.setOnClickListener {
+            val detailIntent = Intent(context, CharacterDetailActivity::class.java)
+            detailIntent.putExtra(EXTRA_CHARACTER, character)
+            context.startActivity(detailIntent)
+        }
     }
 
     override fun getItemCount() = dataSet.size

@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_charItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -28,6 +29,7 @@
         android:layout_height="wrap_content"
         android:text="Character Name"
         android:textAlignment="center"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -39,6 +41,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:text="&quot;Ability1&quot; - does 10 damage"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView_charItem_icon"
         app:layout_constraintTop_toBottomOf="@+id/textView_charItem_health" />
@@ -50,6 +53,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:text="Maximum Health: 100"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/imageView_charItem_icon"
@@ -62,6 +66,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginBottom="32dp"
         android:text="&quot;Ability2&quot; - does 10 damage"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView_charItem_icon"
@@ -73,6 +78,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="Fighter"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="@+id/imageView_charItem_icon" />

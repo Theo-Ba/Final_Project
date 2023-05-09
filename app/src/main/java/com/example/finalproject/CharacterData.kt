@@ -4,7 +4,6 @@ data class CharacterData(
     val data: Data
 ) {
     data class Data(
-        val about: String,
         val images: Images,
         val anime: Anime
     ) {
