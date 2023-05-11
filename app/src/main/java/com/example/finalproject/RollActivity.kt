@@ -12,11 +12,14 @@ import com.backendless.persistence.DataQueryBuilder
 import com.example.finalproject.LoginActivity.Companion.EXTRA_USERID
 import com.example.finalproject.databinding.ActivityCollectionBinding
 import com.example.finalproject.databinding.ActivityRollBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class RollActivity : AppCompatActivity() {
 
     companion object {
-        val TAG = "Roll Activity"
+        val TAG = "RollActivity"
     }
 
     var characterAmount = 1
@@ -38,8 +41,8 @@ class RollActivity : AppCompatActivity() {
         while(x < n) {
             x++
             var rollValue = ((Math.random()*10)+1).toInt()
-//            rollValue = 1
-//            Toast.makeText(this, "$rollValue", Toast.LENGTH_SHORT).show()
+            rollValue = 2
+            Toast.makeText(this, "$rollValue", Toast.LENGTH_SHORT).show()
             if(rollValue == 1) {
                 var characterRoll = ((Math.random()*characterAmount)+1).toInt()
                 var character = Character()
@@ -57,6 +60,23 @@ class RollActivity : AppCompatActivity() {
                     character.ownerId = intent.getStringExtra(EXTRA_USERID).toString()
                 }
                 notOwned(character)
+            }
+            else if(rollValue in 2..5) {
+                val jikanRestService = RetrofitHelper.getInstance().create(JikanRestService::class.java)
+                val characterIdCall = jikanRestService.getRandomCharacterID()
+                characterIdCall.enqueue(object: Callback<RandomCharacterID> {
+                    override fun onResponse(
+                        call: Call<RandomCharacterID>,
+                        response: Response<RandomCharacterID>
+                    ) {
+                        Log.d(TAG, "onResponse: ${response.body()}")
+                        var id = response.body()!!.data.mal_id
+                        getSupportCharacter(id)
+                    }
+                    override fun onFailure(call: Call<RandomCharacterID>, t: Throwable) {
+                        Log.d(TAG, "onFailure: ${t.message}")
+                    }
+                })
             }
         }
     }
@@ -83,6 +103,21 @@ class RollActivity : AppCompatActivity() {
                     Log.d(TAG, "handleFault: ${fault.message}")
                 }
             })
+    }
+
+    private fun saveSupportChar(supportCharacter: SupportCharacter) {
+        Backendless.Data.of(SupportCharacter::class.java).save(supportCharacter, object:
+            AsyncCallback<SupportCharacter> {
+            override fun handleResponse(response: SupportCharacter?) {
+                Toast.makeText(this@RollActivity, "you got ${supportCharacter.name}"
+                    , Toast.LENGTH_SHORT).show()
+            }
+
+            override fun handleFault(fault: BackendlessFault?) {
+                Log.d(TAG, "handleFault: ${fault!!.message}")
+            }
+
+        })
     }
 
     private fun notOwned(character: Character){
@@ -112,7 +147,28 @@ class RollActivity : AppCompatActivity() {
                 }
             }
             override fun handleFault(fault: BackendlessFault) {
-                Log.d(LoginActivity.TAG, "handleFault: ${fault.message}")
+                Log.d(TAG, "handleFault: ${fault.message}")
+            }
+        })
+    }
+
+    fun getSupportCharacter(id: Int) {
+        var supportCharacter = SupportCharacter()
+        val jikanRestService = RetrofitHelper.getInstance().create(JikanRestService::class.java)
+        val characterDataCall = jikanRestService.getCharacterData(id.toString())
+        characterDataCall.enqueue(object : Callback<CharacterData> {
+            override fun onResponse(call: Call<CharacterData>, response: Response<CharacterData>) {
+                supportCharacter.name = response.body()!!.data.name
+                supportCharacter.imageAddress = response.body()!!.data.images.jpg.image_url
+                supportCharacter.power = response.body()!!.data.favorites
+                Log.d(TAG, response.body()!!.data.anime.anime.title)
+                supportCharacter.title = response.body()!!.data.anime.anime.title
+                supportCharacter.ownerId = intent.getStringExtra(EXTRA_USERID).toString()
+                saveSupportChar(supportCharacter)
+            }
+
+            override fun onFailure(call: Call<CharacterData>, t: Throwable) {
+                Log.d(TAG, "onFailure: ${t.message}")
             }
         })
     }

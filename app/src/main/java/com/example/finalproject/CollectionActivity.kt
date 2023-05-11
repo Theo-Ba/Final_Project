@@ -3,6 +3,9 @@ package com.example.finalproject
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.backendless.Backendless
 import com.backendless.async.callback.AsyncCallback
@@ -39,10 +42,10 @@ class CollectionActivity : AppCompatActivity() {
         queryBuilder.whereClause = whereClause
         Backendless.Data.of(Character::class.java).find(queryBuilder, object :
             AsyncCallback<MutableList<Character?>?> {
-            override fun handleResponse(foundLoans: MutableList<Character?>?) {
-                Log.d(TAG, "handleResponse: $foundLoans")
-                if(foundLoans != null) {
-                    adapter = CollectionAdapter(foundLoans as MutableList<Character>)
+            override fun handleResponse(foundCharacters: MutableList<Character?>?) {
+                Log.d(TAG, "handleResponse: $foundCharacters")
+                if(foundCharacters != null) {
+                    adapter = CollectionAdapter(foundCharacters as MutableList<Character>)
                 }
                 binding.recyclerViewCollection.adapter = adapter
                 binding.recyclerViewCollection.layoutManager = LinearLayoutManager(this@CollectionActivity)
@@ -50,8 +53,24 @@ class CollectionActivity : AppCompatActivity() {
 
             override fun handleFault(fault: BackendlessFault) {
                 // an error has occurred, the error code can be retrieved with fault.getCode()
-                Log.d(LoginActivity.TAG, "handleFault: ${fault.message}")
+                Log.d(TAG, "handleFault: ${fault.message}")
             }
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.switch_to_support_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.to_support -> {
+
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

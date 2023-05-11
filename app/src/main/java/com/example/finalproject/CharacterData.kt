@@ -5,7 +5,9 @@ data class CharacterData(
 ) {
     data class Data(
         val images: Images,
-        val anime: Anime
+        val anime: Anime,
+        val favorites: Int,
+        val name: String
     ) {
         data class Images(
             val jpg: Jpg
@@ -15,7 +17,11 @@ data class CharacterData(
             )
         }
         data class Anime(
-            val title: String
-        )
+            val anime: Anime
+        ) {
+            data class Anime(
+                val title: String
+            )
+        }
     }
 }

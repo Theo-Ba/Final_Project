@@ -9,4 +9,6 @@
     <string name="email">Email</string>
     <string name="register">Register</string>
     <string name="profile">Profile</string>
+    <string name="switch_between_support_and_main">Switch between Support and Main</string>
+    <string name="switch_to_support">Switch to support</string>
 </resources>
