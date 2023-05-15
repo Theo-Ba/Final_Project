@@ -5,7 +5,7 @@ data class CharacterData(
 ) {
     data class Data(
         val images: Images,
-        val anime: Anime,
+        //val anime: Anime,
         val favorites: Int,
         val name: String
     ) {
@@ -16,12 +16,12 @@ data class CharacterData(
                 val image_url: String
             )
         }
-        data class Anime(
-            val anime: Anime
-        ) {
-            data class Anime(
-                val title: String
-            )
-        }
+//        data class Anime(
+//            val anime: Anime
+//        ) {
+//            data class Anime(
+//                val title: String
+//            )
+//        }
     }
 }

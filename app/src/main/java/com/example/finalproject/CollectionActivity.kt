@@ -1,5 +1,6 @@
 package com.example.finalproject
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,8 @@ import com.backendless.Backendless
 import com.backendless.async.callback.AsyncCallback
 import com.backendless.exceptions.BackendlessFault
 import com.backendless.persistence.DataQueryBuilder
+import com.example.finalproject.CharacterDetailActivity.Companion.EXTRA_HERE_TO_EQUIP
+import com.example.finalproject.LoginActivity.Companion.EXTRA_USERID
 import com.example.finalproject.databinding.ActivityCollectionBinding
 
 class CollectionActivity : AppCompatActivity() {
@@ -67,7 +70,11 @@ class CollectionActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.to_support -> {
-
+                val supportCollectionIntent = Intent(this, SupportCollectionActivity::class.java)
+                supportCollectionIntent.putExtra(EXTRA_USERID, intent.getStringExtra(LoginActivity.EXTRA_USERID))
+                supportCollectionIntent.putExtra(EXTRA_HERE_TO_EQUIP, false)
+                this.startActivity(supportCollectionIntent)
+                finish()
                 true
             }
             else -> super.onOptionsItemSelected(item)

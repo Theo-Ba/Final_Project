@@ -17,5 +17,9 @@ data class Character(
     var id: Int = 0,
     var ownerId: String = "",
     var imageAddress: String = "",
-    var title: String = ""
+    var title: String = "",
+    var supportEquipped: String = "",
+    var ability1DamageType: String = "",
+    var ability2DamageType: String = "",
+    var equippedSupportsPower: Int = 0
 ): Parcelable
