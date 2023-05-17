@@ -9,11 +9,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.example.finalproject.LoginActivity.Companion.EXTRA_USERID
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.NonDisposableHandle.parent
 import weborb.util.ThreadContext.context
 
-class CollectionAdapter(var dataSet: MutableList<Character>) :
+class CollectionAdapter(var dataSet: MutableList<Character>, var userId: String) :
     RecyclerView.Adapter<CollectionAdapter.ViewHolder>() {
 
     companion object {
@@ -63,6 +64,7 @@ class CollectionAdapter(var dataSet: MutableList<Character>) :
         viewHolder.layout.setOnClickListener {
             val detailIntent = Intent(context, CharacterDetailActivity::class.java)
             detailIntent.putExtra(EXTRA_CHARACTER, character)
+            detailIntent.putExtra(EXTRA_USERID, userId)
             context.startActivity(detailIntent)
         }
     }

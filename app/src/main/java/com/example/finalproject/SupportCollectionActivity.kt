@@ -13,6 +13,7 @@ import com.backendless.async.callback.AsyncCallback
 import com.backendless.exceptions.BackendlessFault
 import com.backendless.persistence.DataQueryBuilder
 import com.example.finalproject.CharacterDetailActivity.Companion.EXTRA_HERE_TO_EQUIP
+import com.example.finalproject.CollectionAdapter.Companion.EXTRA_CHARACTER
 import com.example.finalproject.databinding.ActivitySupportCollectionBinding
 
 class SupportCollectionActivity : AppCompatActivity() {
@@ -36,9 +37,6 @@ class SupportCollectionActivity : AppCompatActivity() {
         if(userId != null) {
             retrieveAllData(userId)
         }
-        if(intent.getBooleanExtra(EXTRA_HERE_TO_EQUIP)) {
-            
-        }
     }
 
     private fun retrieveAllData(userId: String) {
@@ -50,7 +48,8 @@ class SupportCollectionActivity : AppCompatActivity() {
             override fun handleResponse(response: MutableList<SupportCharacter?>?) {
                 Log.d(CollectionActivity.TAG, "handleResponse: $response")
                 if(response != null) {
-                    adapter = SupportCollectionAdapter(response as MutableList<SupportCharacter>)
+                    adapter = SupportCollectionAdapter(response as MutableList<SupportCharacter>, intent.getBooleanExtra(
+                        EXTRA_HERE_TO_EQUIP, false), intent.getParcelableExtra(EXTRA_CHARACTER))
                 }
                 binding.recyclerViewSupportCollection.adapter = adapter
                 binding.recyclerViewSupportCollection.layoutManager = LinearLayoutManager(this@SupportCollectionActivity)

@@ -48,7 +48,7 @@ class CollectionActivity : AppCompatActivity() {
             override fun handleResponse(foundCharacters: MutableList<Character?>?) {
                 Log.d(TAG, "handleResponse: $foundCharacters")
                 if(foundCharacters != null) {
-                    adapter = CollectionAdapter(foundCharacters as MutableList<Character>)
+                    adapter = CollectionAdapter(foundCharacters as MutableList<Character>, userId)
                 }
                 binding.recyclerViewCollection.adapter = adapter
                 binding.recyclerViewCollection.layoutManager = LinearLayoutManager(this@CollectionActivity)

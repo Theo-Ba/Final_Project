@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.finalproject.CollectionAdapter.Companion.EXTRA_CHARACTER
+import com.example.finalproject.LoginActivity.Companion.EXTRA_USERID
 import com.example.finalproject.databinding.ActivityCharacterDetailBinding
 import com.squareup.picasso.Picasso
 import weborb.util.ThreadContext.context
@@ -40,6 +41,8 @@ class CharacterDetailActivity : AppCompatActivity() {
         binding.buttonCharDetailEquipSupport.setOnClickListener {
             val supportCollectionIntent = Intent(this, SupportCollectionActivity::class.java)
             supportCollectionIntent.putExtra(EXTRA_HERE_TO_EQUIP, true)
+            supportCollectionIntent.putExtra(EXTRA_CHARACTER, character)
+            supportCollectionIntent.putExtra(EXTRA_USERID, intent.getStringExtra(EXTRA_USERID))
             this.startActivity(supportCollectionIntent)
             finish()
         }
