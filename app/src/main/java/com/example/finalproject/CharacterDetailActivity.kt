@@ -3,6 +3,11 @@ package com.example.finalproject
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import com.backendless.Backendless
+import com.backendless.async.callback.AsyncCallback
+import com.backendless.exceptions.BackendlessFault
 import com.example.finalproject.CollectionAdapter.Companion.EXTRA_CHARACTER
 import com.example.finalproject.LoginActivity.Companion.EXTRA_USERID
 import com.example.finalproject.databinding.ActivityCharacterDetailBinding
@@ -28,7 +33,6 @@ class CharacterDetailActivity : AppCompatActivity() {
 
         binding.textViewCharDetailName.text = character.name
         binding.textViewCharDetailTitle.text = "From: ${character.title}"
-        binding.textViewCharDetailAbout.text = "to be implemented"
         binding.textViewCharDetailClass.text = "Class: ${character.archetype}"
         binding.textViewCharDetailAbility1.text = "${character.ability1}:"
         binding.textViewCharDetailAbility1Description.text = character.ability1Description
@@ -46,5 +50,29 @@ class CharacterDetailActivity : AppCompatActivity() {
             this.startActivity(supportCollectionIntent)
             finish()
         }
+        binding.buttonCharDetailEquipSlot1.setOnClickListener {
+            character.equipped = "slot1"
+            saveCharacter(character)
+        }
+        binding.buttonCharDetailEquipSlot2.setOnClickListener {
+            character.equipped = "slot2"
+            saveCharacter(character)
+        }
+        binding.buttonCharDetailEquipSlot3.setOnClickListener {
+            character.equipped = "slot3"
+            saveCharacter(character)
+        }
+    }
+
+    fun saveCharacter(character: Character) {
+        Backendless.Data.of(Character::class.java).save(character, object : AsyncCallback<Character> {
+            override fun handleResponse(response: Character?) {
+                Toast.makeText(this@CharacterDetailActivity,
+                    "Equipped to ${character.equipped}", Toast.LENGTH_SHORT).show()
+            }
+            override fun handleFault(fault: BackendlessFault?) {
+                Log.d(TAG, "handleFault: ${fault!!.message}")
+            }
+        })
     }
 }

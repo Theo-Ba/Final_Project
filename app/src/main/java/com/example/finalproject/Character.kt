@@ -22,5 +22,6 @@ data class Character(
     var supportEquipped: String = "",
     var ability1DamageType: String = "",
     var ability2DamageType: String = "",
-    var equippedSupportsPower: Int = 0
+    var equippedSupportsPower: Int = 0,
+    var equipped: String = ""
 ): Parcelable

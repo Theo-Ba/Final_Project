@@ -64,10 +64,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginTop="4dp"
         android:text="&quot;Ability2&quot; - does 10 damage"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView_charItem_icon"
         app:layout_constraintTop_toBottomOf="@+id/textView_charItem_ability1" />
@@ -94,5 +93,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/textView_charItem_ability2" />
+
+    <TextView
+        android:id="@+id/textView_charItem_equipped"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:text="Equipped slot1"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/textView_charItem_supportEquipped" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

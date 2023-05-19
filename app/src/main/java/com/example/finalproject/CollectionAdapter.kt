@@ -30,6 +30,7 @@ class CollectionAdapter(var dataSet: MutableList<Character>, var userId: String)
         val textViewClass: TextView
         val layout: ConstraintLayout
         val textViewSupportEquipped: TextView
+        val textViewEquipped: TextView
 
         init {
             textViewName = view.findViewById(R.id.textView_charItem_name)
@@ -40,6 +41,7 @@ class CollectionAdapter(var dataSet: MutableList<Character>, var userId: String)
             textViewClass = view.findViewById(R.id.textView_charItem_class)
             layout = view.findViewById(R.id.layout_charItem)
             textViewSupportEquipped = view.findViewById(R.id.textView_charItem_supportEquipped)
+            textViewEquipped = view.findViewById(R.id.textView_charItem_equipped)
         }
     }
 
@@ -58,6 +60,12 @@ class CollectionAdapter(var dataSet: MutableList<Character>, var userId: String)
         viewHolder.textViewAbility2.text = "${character.ability2}: ${character.ability2Description}"
         viewHolder.textViewClass.text = "${character.archetype}"
         viewHolder.textViewSupportEquipped.text = "Support Equipped: ${character.supportEquipped}"
+        if(character.equipped == "") {
+            viewHolder.textViewEquipped.text = ""
+        }
+        else {
+            viewHolder.textViewEquipped.text = "Equipped to ${character.equipped}"
+        }
         Picasso.with(context).load(character.imageAddress).fit()
             .into(viewHolder.imageViewIcon)
 
