@@ -12,5 +12,15 @@ class CombatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCombatBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+    }
+
+    fun initializeCharacters() {
+
+    }
+
+    fun initializeEnemies() {
+
     }
 }

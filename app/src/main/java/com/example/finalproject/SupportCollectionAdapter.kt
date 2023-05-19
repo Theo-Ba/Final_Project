@@ -56,29 +56,18 @@ class SupportCollectionAdapter(var dataSet: MutableList<SupportCharacter>, var h
         Picasso.with(context).load(supportCharacter.imageAddress).fit().into(viewHolder.imageViewIcon)
         if(hereToEquip) {
             viewHolder.layout.setOnClickListener {
-                val whereClause = "name = '${characterEquippedTo!!.name}'"
-                val queryBuilder = DataQueryBuilder.create()
-                queryBuilder.whereClause = whereClause
-                Backendless.Data.of(Character::class.java).find(queryBuilder, object :
-                    AsyncCallback<MutableList<Character?>?> {
-                    override fun handleResponse(response: MutableList<Character?>?) {
-                        response!![0]!!.supportEquipped = supportCharacter.name
-                        response[0]!!.equippedSupportsPower = supportCharacter.power
-                        Backendless.Data.of(Character::class.java)
-                            .save(response[0], object : AsyncCallback<Character> {
-                                override fun handleResponse(response: Character?) {
-                                    Log.d(TAG, "${supportCharacter.name} equipped to ${response!!.name}")
-                                    (context as Activity).finish()
-                                }
-                                override fun handleFault(fault: BackendlessFault?) {
-                                    Log.d(TAG, "handleFault: ${fault!!.message}")
-                                }
-                            })
-                    }
-                    override fun handleFault(fault: BackendlessFault?) {
-                        Log.d(TAG, "handleFault: ${fault!!.message}")
-                    }
-                })
+                characterEquippedTo!!.supportEquipped = supportCharacter.name
+                characterEquippedTo!!.equippedSupportsPower = supportCharacter.power
+                Backendless.Data.of(Character::class.java)
+                    .save(characterEquippedTo, object : AsyncCallback<Character> {
+                        override fun handleResponse(response: Character?) {
+                            Log.d(TAG, "${supportCharacter.name} equipped to ${response!!.name}")
+                            (context as Activity).finish()
+                        }
+                        override fun handleFault(fault: BackendlessFault?) {
+                            Log.d(TAG, "handleFault: ${fault!!.message}")
+                        }
+                    })
             }
         }
     }
