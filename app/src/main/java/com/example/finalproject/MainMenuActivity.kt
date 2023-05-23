@@ -32,6 +32,13 @@ class MainMenuActivity : AppCompatActivity() {
             rollIntent.putExtra(EXTRA_USERID, userId)
             startActivity(rollIntent)
         }
+
+        binding.imageViewMainFightButton.setOnClickListener {
+            val userId = intent.getStringExtra(EXTRA_USERID)
+            val combatIntent = Intent(this, CombatActivity::class.java)
+            combatIntent.putExtra(EXTRA_USERID, userId)
+            startActivity(combatIntent)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
