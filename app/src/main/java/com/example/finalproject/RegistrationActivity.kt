@@ -45,16 +45,26 @@ class RegistrationActivity : AppCompatActivity() {
                 Backendless.UserService.register(user, object : AsyncCallback<BackendlessUser?> {
                     override fun handleResponse(registeredUser: BackendlessUser?) {
                         // user has been registered and now can login
-                        val resultIntent = Intent().apply {
-                            // apply { putExtra() } is doing the same thing as resultIntent.putExtra()
-                            putExtra(
-                                LoginActivity.EXTRA_USERNAME,
-                                binding.editTextRegistrationUsername.text.toString()
-                            )
-                            putExtra(LoginActivity.EXTRA_PASSWORD, password)
-                        }
-                        setResult(Activity.RESULT_OK, resultIntent)
-                        finish()
+                        var ticket = Ticket(10)
+                        Backendless.Data.of(Ticket::class.java).save(ticket, object:
+                            AsyncCallback<Ticket> {
+                            override fun handleResponse(response: Ticket?) {
+                                val resultIntent = Intent().apply {
+                                    // apply { putExtra() } is doing the same thing as resultIntent.putExtra()
+                                    putExtra(
+                                        LoginActivity.EXTRA_USERNAME,
+                                        binding.editTextRegistrationUsername.text.toString()
+                                    )
+                                    putExtra(LoginActivity.EXTRA_PASSWORD, password)
+                                }
+                                setResult(Activity.RESULT_OK, resultIntent)
+                                finish()
+                            }
+
+                            override fun handleFault(fault: BackendlessFault?) {
+                                Log.d(RollActivity.TAG, "3 handleFault: ${fault!!.message}")
+                            }
+                        })
                     }
 
                     override fun handleFault(fault: BackendlessFault) {

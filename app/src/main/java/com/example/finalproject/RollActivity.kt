@@ -1,20 +1,21 @@
 package com.example.finalproject
 
-import androidx.appcompat.app.AppCompatActivity
+import android.R.attr.password
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
 import com.backendless.Backendless
+import com.backendless.BackendlessUser
 import com.backendless.async.callback.AsyncCallback
 import com.backendless.exceptions.BackendlessFault
 import com.backendless.persistence.DataQueryBuilder
 import com.example.finalproject.LoginActivity.Companion.EXTRA_USERID
-import com.example.finalproject.databinding.ActivityCollectionBinding
 import com.example.finalproject.databinding.ActivityRollBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class RollActivity : AppCompatActivity() {
 
@@ -34,14 +35,17 @@ class RollActivity : AppCompatActivity() {
         binding.buttonRollRoll1.setOnClickListener {
             roll(1)
         }
+        binding.buttonRollRoll10.setOnClickListener {
+            roll(10)
+        }
     }
 
     fun roll(n: Int) {
         var x = 0
         while(x < n) {
             x++
+            Log.d(TAG, "$x")
             var rollValue = ((Math.random()*10)+1).toInt()
-            rollValue = 1
             //Toast.makeText(this, "$rollValue", Toast.LENGTH_SHORT).show()
             if(rollValue == 1) {
                 var characterRoll = ((Math.random()*characterAmount)+1).toInt()

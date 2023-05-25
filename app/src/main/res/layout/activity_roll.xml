@@ -51,7 +51,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Rates: Character - 10%, Support Item - 50%, Support Character - 40%"
+        android:text="Rates: Character - 10%, Support Character - 90%"
         android:textAlignment="center"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
