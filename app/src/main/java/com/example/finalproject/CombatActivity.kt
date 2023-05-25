@@ -33,6 +33,9 @@ class CombatActivity : AppCompatActivity() {
     private var enemy2TempHealth = 0
     private lateinit var enemy3: Enemy
     private var enemy3TempHealth = 0
+    private var turn1 = false
+    private var turn2 = false
+    private var turn3 = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -124,12 +127,410 @@ class CombatActivity : AppCompatActivity() {
                 Picasso.with(this@CombatActivity).load(enemy3.imageAddress).into(binding.imageViewCombatImage6)
 
                 //combat()
+                turn1()
             }
 
             override fun handleFault(fault: BackendlessFault?) {
                 Log.d(TAG, "handleFault: ${fault!!.message}")
             }
         })
+    }
+
+    private fun turn1() {
+        if(character1 != null) {
+            turn1 = true
+            binding.buttonCombatAbility11.setOnClickListener {
+                if(turn1) {
+                    var attacking = true
+                    var abilityDamage = character1!!.ability1Damage
+                    binding.imageViewCombatImage4.setOnClickListener {
+                        if(attacking) {
+                            enemy1TempHealth -= abilityDamage
+                            binding.textViewCombatHealth4.text = "${enemy1TempHealth}/${enemy1.health}"
+                            if(enemy1TempHealth <= 0) {
+                                //binding.groupCombatEnemy1.isGone = true
+                            }
+                            attacking = false
+                            turn1 = false
+                            turn2()
+                        }
+                    }
+                    binding.imageViewCombatImage5.setOnClickListener {
+                        if(attacking) {
+                            enemy2TempHealth -= abilityDamage
+                            binding.textViewCombatHealth5.text = "${enemy2TempHealth}/${enemy2.health}"
+                            if(enemy2TempHealth <= 0) {
+                                //binding.groupCombatEnemy2.isGone = true
+                            }
+                            attacking = false
+                            turn1 = false
+                            turn2()
+                        }
+                    }
+                    binding.imageViewCombatImage6.setOnClickListener {
+                        if(attacking) {
+                            enemy3TempHealth -= abilityDamage
+                            binding.textViewCombatHealth6.text = "${enemy3TempHealth}/${enemy3.health}"
+                            if(enemy3TempHealth <= 0) {
+                                //binding.groupCombatEnemy1.isGone = true
+                            }
+                            attacking = false
+                            turn1 = false
+                            turn2()
+                        }
+                    }
+                }
+            }
+            binding.buttonCombatAbility12.setOnClickListener {
+                if(turn1) {
+                    var attacking = true
+                    var abilityDamage = character1!!.ability2Damage
+                    binding.imageViewCombatImage4.setOnClickListener {
+                        if(attacking) {
+                            enemy1TempHealth -= abilityDamage
+                            binding.textViewCombatHealth4.text = "${enemy1TempHealth}/${enemy1.health}"
+                            if(enemy1TempHealth <= 0) {
+                                //binding.groupCombatEnemy1.isGone = true
+                            }
+                            attacking = false
+                            turn1 = false
+                            turn2()
+                        }
+                    }
+                    binding.imageViewCombatImage5.setOnClickListener {
+                        if(attacking) {
+                            enemy2TempHealth -= abilityDamage
+                            binding.textViewCombatHealth5.text = "${enemy2TempHealth}/${enemy2.health}"
+                            if(enemy2TempHealth <= 0) {
+                                //binding.groupCombatEnemy2.isGone = true
+                            }
+                            attacking = false
+                            turn1 = false
+                            turn2()
+                        }
+                    }
+                    binding.imageViewCombatImage6.setOnClickListener {
+                        if(attacking) {
+                            enemy3TempHealth -= abilityDamage
+                            binding.textViewCombatHealth6.text = "${enemy3TempHealth}/${enemy3.health}"
+                            if(enemy3TempHealth <= 0) {
+                                //binding.groupCombatEnemy1.isGone = true
+                            }
+                            attacking = false
+                            turn1 = false
+                            turn2()
+                        }
+                    }
+                }
+            }
+        }
+        if((character1TempHealth > 0 || character2TempHealth > 0 || character3TempHealth > 0) &&
+            (enemy1TempHealth <= 0 && enemy2TempHealth <= 0 && enemy3TempHealth <= 0)) {
+            Toast.makeText(this, "You Won!", Toast.LENGTH_SHORT).show()
+            finish()
+        }
+        if((character1TempHealth <= 0 && character2TempHealth <= 0 && character3TempHealth <= 0) &&
+            (enemy1TempHealth > 0 || enemy2TempHealth > 0 || enemy3TempHealth > 0)) {
+            Toast.makeText(this, "You Lost", Toast.LENGTH_SHORT).show()
+            finish()
+        }
+        if(character1 == null) {
+            turn2()
+        }
+    }
+
+    private fun turn2() {
+        if(character2 != null) {
+            turn2 = true
+            binding.buttonCombatAbility21.setOnClickListener {
+                if(turn2) {
+                    var attacking = true
+                    var abilityDamage = character2!!.ability1Damage
+                    binding.imageViewCombatImage4.setOnClickListener {
+                        if(attacking) {
+                            enemy1TempHealth -= abilityDamage
+                            binding.textViewCombatHealth4.text = "${enemy1TempHealth}/${enemy1.health}"
+                            if(enemy1TempHealth <= 0) {
+                                //binding.groupCombatEnemy1.isGone = true
+                            }
+                            attacking = false
+                            turn2 = false
+                            turn3()
+                        }
+                    }
+                    binding.imageViewCombatImage5.setOnClickListener {
+                        if(attacking) {
+                            enemy2TempHealth -= abilityDamage
+                            binding.textViewCombatHealth5.text = "${enemy2TempHealth}/${enemy2.health}"
+                            if(enemy2TempHealth <= 0) {
+                                //binding.groupCombatEnemy2.isGone = true
+                            }
+                            attacking = false
+                            turn2 = false
+                            turn3()
+                        }
+                    }
+                    binding.imageViewCombatImage6.setOnClickListener {
+                        if(attacking) {
+                            enemy3TempHealth -= abilityDamage
+                            binding.textViewCombatHealth6.text = "${enemy3TempHealth}/${enemy3.health}"
+                            if(enemy3TempHealth <= 0) {
+                                //binding.groupCombatEnemy1.isGone = true
+                            }
+                            attacking = false
+                            turn2 = false
+                            turn3()
+                        }
+                    }
+                }
+            }
+            binding.buttonCombatAbility22.setOnClickListener {
+                if(turn2) {
+                    var attacking = true
+                    var abilityDamage = character2!!.ability2Damage
+                    binding.imageViewCombatImage4.setOnClickListener {
+                        if(attacking) {
+                            enemy1TempHealth -= abilityDamage
+                            binding.textViewCombatHealth4.text = "${enemy1TempHealth}/${enemy1.health}"
+                            if(enemy1TempHealth <= 0) {
+                                //binding.groupCombatEnemy1.isGone = true
+                            }
+                            attacking = false
+                            turn2 = false
+                            turn3()
+                        }
+                    }
+                    binding.imageViewCombatImage5.setOnClickListener {
+                        if(attacking) {
+                            enemy2TempHealth -= abilityDamage
+                            binding.textViewCombatHealth5.text = "${enemy2TempHealth}/${enemy2.health}"
+                            if(enemy2TempHealth <= 0) {
+                                //binding.groupCombatEnemy2.isGone = true
+                            }
+                            attacking = false
+                            turn2 = false
+                            turn3()
+                        }
+                    }
+                    binding.imageViewCombatImage6.setOnClickListener {
+                        if(attacking) {
+                            enemy3TempHealth -= abilityDamage
+                            binding.textViewCombatHealth6.text = "${enemy3TempHealth}/${enemy3.health}"
+                            if(enemy3TempHealth <= 0) {
+                                //binding.groupCombatEnemy1.isGone = true
+                            }
+                            attacking = false
+                            turn2 = false
+                            turn3()
+                        }
+                    }
+                }
+            }
+        }
+        if(character2 == null) {
+            turn3()
+        }
+    }
+
+    private fun turn3() {
+        if(character3 != null) {
+            turn3 = true
+            binding.buttonCombatAbility31.setOnClickListener {
+                if(turn3) {
+                    var attacking = true
+                    var abilityDamage = character3!!.ability1Damage
+                    binding.imageViewCombatImage4.setOnClickListener {
+                        if(attacking) {
+                            enemy1TempHealth -= abilityDamage
+                            binding.textViewCombatHealth4.text = "${enemy1TempHealth}/${enemy1.health}"
+                            if(enemy1TempHealth <= 0) {
+                                //binding.groupCombatEnemy1.isGone = true
+                            }
+                            attacking = false
+                            turn3 = false
+                            turn4()
+                        }
+                    }
+                    binding.imageViewCombatImage5.setOnClickListener {
+                        if(attacking) {
+                            enemy2TempHealth -= abilityDamage
+                            binding.textViewCombatHealth5.text = "${enemy2TempHealth}/${enemy2.health}"
+                            if(enemy2TempHealth <= 0) {
+                                //binding.groupCombatEnemy2.isGone = true
+                            }
+                            attacking = false
+                            turn3 = false
+                            turn4()
+                        }
+                    }
+                    binding.imageViewCombatImage6.setOnClickListener {
+                        if(attacking) {
+                            enemy3TempHealth -= abilityDamage
+                            binding.textViewCombatHealth6.text = "${enemy3TempHealth}/${enemy3.health}"
+                            if(enemy3TempHealth <= 0) {
+                                //binding.groupCombatEnemy1.isGone = true
+                            }
+                            attacking = false
+                            turn3 = false
+                            turn4()
+                        }
+                    }
+                }
+            }
+            binding.buttonCombatAbility32.setOnClickListener {
+                if(turn3) {
+                    var attacking = true
+                    var abilityDamage = character3!!.ability2Damage
+                    binding.imageViewCombatImage4.setOnClickListener {
+                        if(attacking) {
+                            enemy1TempHealth -= abilityDamage
+                            binding.textViewCombatHealth4.text = "${enemy1TempHealth}/${enemy1.health}"
+                            if(enemy1TempHealth <= 0) {
+                                //binding.groupCombatEnemy1.isGone = true
+                            }
+                            attacking = false
+                            turn3 = false
+                            turn4()
+                        }
+                    }
+                    binding.imageViewCombatImage5.setOnClickListener {
+                        if(attacking) {
+                            enemy2TempHealth -= abilityDamage
+                            binding.textViewCombatHealth5.text = "${enemy2TempHealth}/${enemy2.health}"
+                            if(enemy2TempHealth <= 0) {
+                                //binding.groupCombatEnemy2.isGone = true
+                            }
+                            attacking = false
+                            turn3 = false
+                            turn4()
+                        }
+                    }
+                    binding.imageViewCombatImage6.setOnClickListener {
+                        if(attacking) {
+                            enemy3TempHealth -= abilityDamage
+                            binding.textViewCombatHealth6.text = "${enemy3TempHealth}/${enemy3.health}"
+                            if(enemy3TempHealth <= 0) {
+                                //binding.groupCombatEnemy1.isGone = true
+                            }
+                            attacking = false
+                            turn3 = false
+                            turn4()
+                        }
+                    }
+                }
+            }
+        }
+        if(character3 == null) {
+            turn4()
+        }
+    }
+
+    private fun turn4() {
+        if(enemy1TempHealth > 0) {
+            var whoToAttack = ((Math.random()* 3)+1).toInt()
+            var turnActive = true
+            while(turnActive) {
+                if(whoToAttack == 1 && character1 != null) {
+                    character1TempHealth -= enemy1.damage
+                    binding.textViewCombatHealth1.text = "${character1TempHealth}/${character1!!.health}"
+                    turn5()
+                    turnActive = false
+                }
+                else if(whoToAttack == 1 && character1 == null)
+                    whoToAttack = ((Math.random()* 3)+1).toInt()
+                if(whoToAttack == 2 && character2 != null) {
+                    character2TempHealth -= enemy1.damage
+                    binding.textViewCombatHealth2.text = "${character2TempHealth}/${character2!!.health}"
+                    turn5()
+                    turnActive = false
+                }
+                else if(whoToAttack == 2 && character2 == null)
+                    whoToAttack = ((Math.random()* 3)+1).toInt()
+                if(whoToAttack == 3 && character3 != null) {
+                    character3TempHealth -= enemy1.damage
+                    binding.textViewCombatHealth3.text = "${character3TempHealth}/${character3!!.health}"
+                    turn5()
+                    turnActive = false
+                }
+                else if(whoToAttack == 3 && character3 == null)
+                    whoToAttack = ((Math.random()* 3)+1).toInt()
+            }
+        }
+        if(enemy1TempHealth <= 0) {
+            turn5()
+        }
+    }
+
+    private fun turn5() {
+        if(enemy2TempHealth > 0) {
+            var whoToAttack = ((Math.random()* 3)+1).toInt()
+            var turnActive = true
+            while(turnActive) {
+                if(whoToAttack == 1 && character1 != null) {
+                    character1TempHealth -= enemy2.damage
+                    binding.textViewCombatHealth1.text = "${character1TempHealth}/${character1!!.health}"
+                    turn6()
+                    turnActive = false
+                }
+                else if(whoToAttack == 1 && character1 == null)
+                    whoToAttack = ((Math.random()* 3)+1).toInt()
+                if(whoToAttack == 2 && character2 != null) {
+                    character2TempHealth -= enemy2.damage
+                    binding.textViewCombatHealth2.text = "${character2TempHealth}/${character2!!.health}"
+                    turn6()
+                    turnActive = false
+                }
+                else if(whoToAttack == 2 && character2 == null)
+                    whoToAttack = ((Math.random()* 3)+1).toInt()
+                if(whoToAttack == 3 && character3 != null) {
+                    character3TempHealth -= enemy2.damage
+                    binding.textViewCombatHealth3.text = "${character3TempHealth}/${character3!!.health}"
+                    turn6()
+                    turnActive = false
+                }
+                else if(whoToAttack == 3 && character3 == null)
+                    whoToAttack = ((Math.random()* 3)+1).toInt()
+            }
+        }
+        if(enemy2TempHealth <= 0) {
+            turn6()
+        }
+    }
+
+    private fun turn6() {
+        if(enemy3TempHealth > 0) {
+            var whoToAttack = ((Math.random()* 3)+1).toInt()
+            var turnActive = true
+            while(turnActive) {
+                if(whoToAttack == 1 && character1 != null) {
+                    character1TempHealth -= enemy3.damage
+                    binding.textViewCombatHealth1.text = "${character1TempHealth}/${character1!!.health}"
+                    turn1()
+                    turnActive = false
+                }
+                else if(whoToAttack == 1 && character1 == null)
+                    whoToAttack = ((Math.random()* 3)+1).toInt()
+                if(whoToAttack == 2 && character2 != null) {
+                    character2TempHealth -= enemy3.damage
+                    binding.textViewCombatHealth2.text = "${character2TempHealth}/${character2!!.health}"
+                    turn1()
+                    turnActive = false
+                }
+                else if(whoToAttack == 2 && character2 == null)
+                    whoToAttack = ((Math.random()* 3)+1).toInt()
+                if(whoToAttack == 3 && character3 != null) {
+                    character3TempHealth -= enemy3.damage
+                    binding.textViewCombatHealth3.text = "${character3TempHealth}/${character3!!.health}"
+                    turn1()
+                    turnActive = false
+                }
+                else if(whoToAttack == 3 && character3 == null)
+                    whoToAttack = ((Math.random()* 3)+1).toInt()
+            }
+        }
+        if(enemy3TempHealth <= 0) {
+            turn1()
+        }
     }
 
     private fun combat() {
@@ -326,7 +727,7 @@ class CombatActivity : AppCompatActivity() {
                 enemy1TempHealth -= abilityDamage
                 binding.textViewCombatHealth4.text = "${enemy1TempHealth}/${enemy1.health}"
                 if(enemy1TempHealth <= 0) {
-                    binding.groupCombatEnemy1.isGone = true
+                    //binding.groupCombatEnemy1.isGone = true
                 }
                 attacking = false
             }
@@ -336,7 +737,7 @@ class CombatActivity : AppCompatActivity() {
                 enemy2TempHealth -= abilityDamage
                 binding.textViewCombatHealth5.text = "${enemy2TempHealth}/${enemy2.health}"
                 if(enemy2TempHealth <= 0) {
-                    binding.groupCombatEnemy2.isGone = true
+                    //binding.groupCombatEnemy2.isGone = true
                 }
                 attacking = false
             }
@@ -346,7 +747,7 @@ class CombatActivity : AppCompatActivity() {
                 enemy3TempHealth -= abilityDamage
                 binding.textViewCombatHealth6.text = "${enemy3TempHealth}/${enemy3.health}"
                 if(enemy3TempHealth <= 0) {
-                    binding.groupCombatEnemy1.isGone = true
+                    //binding.groupCombatEnemy1.isGone = true
                 }
                 attacking = false
             }
