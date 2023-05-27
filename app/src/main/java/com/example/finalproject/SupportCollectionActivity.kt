@@ -43,6 +43,7 @@ class SupportCollectionActivity : AppCompatActivity() {
         val whereClause = "ownerId = '$userId'"
         val queryBuilder = DataQueryBuilder.create()
         queryBuilder.whereClause = whereClause
+        queryBuilder.setPageSize(100)
         Backendless.Data.of(SupportCharacter::class.java).find(queryBuilder, object :
             AsyncCallback<MutableList<SupportCharacter?>?> {
             override fun handleResponse(response: MutableList<SupportCharacter?>?) {
