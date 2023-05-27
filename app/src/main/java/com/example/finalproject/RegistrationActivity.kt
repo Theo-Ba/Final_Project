@@ -44,13 +44,12 @@ class RegistrationActivity : AppCompatActivity() {
 
                 Backendless.UserService.register(user, object : AsyncCallback<BackendlessUser?> {
                     override fun handleResponse(registeredUser: BackendlessUser?) {
-                        // user has been registered and now can login
                         var ticket = Ticket(10)
+                        ticket.ownerId = user.userId
                         Backendless.Data.of(Ticket::class.java).save(ticket, object:
                             AsyncCallback<Ticket> {
                             override fun handleResponse(response: Ticket?) {
                                 val resultIntent = Intent().apply {
-                                    // apply { putExtra() } is doing the same thing as resultIntent.putExtra()
                                     putExtra(
                                         LoginActivity.EXTRA_USERNAME,
                                         binding.editTextRegistrationUsername.text.toString()
@@ -62,13 +61,12 @@ class RegistrationActivity : AppCompatActivity() {
                             }
 
                             override fun handleFault(fault: BackendlessFault?) {
-                                Log.d(RollActivity.TAG, "3 handleFault: ${fault!!.message}")
+                                Log.d(RollActivity.TAG, "handleFault: ${fault!!.message}")
                             }
                         })
                     }
 
                     override fun handleFault(fault: BackendlessFault) {
-                        // an error has occurred, the error code can be retrieved with fault.getCode()
                         Log.d(TAG, "handleFault: ${fault.message}")
                     }
                 })

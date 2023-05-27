@@ -28,16 +28,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Roll x1"
-        app:layout_constraintEnd_toStartOf="@+id/button_roll_roll10"
+        app:layout_constraintEnd_toStartOf="@+id/button_roll_roll5"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView_roll_orb" />
 
     <Button
-        android:id="@+id/button_roll_roll10"
+        android:id="@+id/button_roll_roll5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Roll X10"
+        android:text="Roll X5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/button_roll_roll1"
@@ -58,5 +58,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_roll_roll1" />
+
+    <TextView
+        android:id="@+id/textView_roll_tickets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tickets: 0"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

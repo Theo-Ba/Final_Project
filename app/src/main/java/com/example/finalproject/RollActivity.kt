@@ -1,6 +1,8 @@
 package com.example.finalproject
 
 import android.R.attr.password
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -32,11 +34,64 @@ class RollActivity : AppCompatActivity() {
         binding = ActivityRollBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        updateTicketText()
+
         binding.buttonRollRoll1.setOnClickListener {
-            roll(1)
+            val whereClause = "ownerId = '${intent.getStringExtra(EXTRA_USERID)}'"
+            val queryBuilder = DataQueryBuilder.create()
+            queryBuilder.whereClause = whereClause
+            Backendless.Data.of(Ticket::class.java).find(queryBuilder, object :
+                AsyncCallback<MutableList<Ticket?>?> {
+                override fun handleResponse(response: MutableList<Ticket?>?) {
+                    if(response!![0]!!.amount >= 1) {
+                        response[0]!!.amount -= 1
+                        Backendless.Data.of(Ticket::class.java).save(response[0], object:
+                            AsyncCallback<Ticket> {
+                            override fun handleResponse(response: Ticket?) {
+                                updateTicketText()
+                                roll(1)
+                            }
+                            override fun handleFault(fault: BackendlessFault?) {
+                                Log.d(TAG, "handleFault: ${fault!!.message}")
+                            }
+                        })
+                    }
+                }
+
+                override fun handleFault(fault: BackendlessFault?) {
+                    Log.d(TAG, "handleFault: ${fault!!.message}")
+                }
+            })
         }
-        binding.buttonRollRoll10.setOnClickListener {
-            roll(10)
+        binding.buttonRollRoll5.setOnClickListener {
+            val whereClause = "ownerId = '${intent.getStringExtra(EXTRA_USERID)}'"
+            val queryBuilder = DataQueryBuilder.create()
+            queryBuilder.whereClause = whereClause
+            Backendless.Data.of(Ticket::class.java).find(queryBuilder, object :
+                AsyncCallback<MutableList<Ticket?>?> {
+                override fun handleResponse(response: MutableList<Ticket?>?) {
+                    if(response!![0]!!.amount >= 5) {
+                        response[0]!!.amount -= 5
+                        Backendless.Data.of(Ticket::class.java).save(response[0], object:
+                            AsyncCallback<Ticket> {
+                            override fun handleResponse(response: Ticket?) {
+                                updateTicketText()
+                                roll(1)
+                                roll(1)
+                                roll(1)
+                                roll(1)
+                                roll(1)
+                            }
+                            override fun handleFault(fault: BackendlessFault?) {
+                                Log.d(TAG, "handleFault: ${fault!!.message}")
+                            }
+                        })
+                    }
+                }
+                override fun handleFault(fault: BackendlessFault?) {
+                    Log.d(TAG, "handleFault: ${fault!!.message}")
+                }
+            })
         }
     }
 
@@ -46,7 +101,7 @@ class RollActivity : AppCompatActivity() {
             x++
             Log.d(TAG, "$x")
             var rollValue = ((Math.random()*10)+1).toInt()
-            //Toast.makeText(this, "$rollValue", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "$rollValue", Toast.LENGTH_SHORT).show()
             if(rollValue == 1) {
                 var characterRoll = ((Math.random()*characterAmount)+1).toInt()
                 var character = Character()
@@ -69,7 +124,7 @@ class RollActivity : AppCompatActivity() {
                 }
                 notOwned(character)
             }
-            else if(rollValue in 2..5) {
+            else if(rollValue in 2..10) {
                 val jikanRestService = RetrofitHelper.getInstance().create(JikanRestService::class.java)
                 val characterIdCall = jikanRestService.getRandomCharacterID()
                 characterIdCall.enqueue(object: Callback<RandomCharacterID> {
@@ -151,7 +206,29 @@ class RollActivity : AppCompatActivity() {
                     save(character)
                 }
                 else {
-                    Toast.makeText(this@RollActivity, "Got duplicate, 1 ticket received instead", Toast.LENGTH_SHORT).show()
+                    val whereClause = "ownerId = '${intent.getStringExtra(EXTRA_USERID)}'"
+                    val queryBuilder = DataQueryBuilder.create()
+                    queryBuilder.whereClause = whereClause
+                    Backendless.Data.of(Ticket::class.java).find(queryBuilder, object :
+                        AsyncCallback<MutableList<Ticket?>?> {
+                        override fun handleResponse(response: MutableList<Ticket?>?) {
+                            response!![0]!!.amount += 1
+                            Backendless.Data.of(Ticket::class.java).save(response!![0], object:
+                                AsyncCallback<Ticket> {
+                                override fun handleResponse(response: Ticket?) {
+                                    Toast.makeText(this@RollActivity,
+                                        "Got duplicate, 1 ticket received instead", Toast.LENGTH_SHORT).show()
+                                    updateTicketText()
+                                }
+                                override fun handleFault(fault: BackendlessFault?) {
+                                    Log.d(TAG, "handleFault: ${fault!!.message}")
+                                }
+                            })
+                        }
+                        override fun handleFault(fault: BackendlessFault?) {
+                            Log.d(TAG, "handleFault: ${fault!!.message}")
+                        }
+                    })
                 }
             }
             override fun handleFault(fault: BackendlessFault) {
@@ -178,8 +255,6 @@ class RollActivity : AppCompatActivity() {
                     supportCharacter.name = response.body()!!.data.name
                     supportCharacter.imageAddress = response.body()!!.data.images.jpg.image_url
                     supportCharacter.power = response.body()!!.data.favorites
-                    //Log.d(TAG, response.body()!!.data.anime.anime.title)
-                    //supportCharacter.title = response.body()!!.data.anime.anime.title
                     supportCharacter.ownerId = intent.getStringExtra(EXTRA_USERID).toString()
                     saveSupportChar(supportCharacter)
                 }
@@ -207,6 +282,21 @@ class RollActivity : AppCompatActivity() {
             }
             override fun onFailure(call: Call<RandomCharacterID>, t: Throwable) {
                 Log.d(TAG, "1 onFailure: ${t.message}")
+            }
+        })
+    }
+
+    fun updateTicketText() {
+        val whereClause = "ownerId = '${intent.getStringExtra(EXTRA_USERID)}'"
+        val queryBuilder = DataQueryBuilder.create()
+        queryBuilder.whereClause = whereClause
+        Backendless.Data.of(Ticket::class.java).find(queryBuilder, object :
+            AsyncCallback<MutableList<Ticket?>?> {
+            override fun handleResponse(response: MutableList<Ticket?>?) {
+                binding.textViewRollTickets.text = "Tickets: ${response!![0]!!.amount}"
+            }
+            override fun handleFault(fault: BackendlessFault?) {
+                Log.d(TAG, "handleFault: ${fault!!.message}")
             }
         })
     }
