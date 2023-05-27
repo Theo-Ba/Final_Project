@@ -57,37 +57,6 @@ class RollActivity : AppCompatActivity() {
                         })
                     }
                 }
-
-                override fun handleFault(fault: BackendlessFault?) {
-                    Log.d(TAG, "handleFault: ${fault!!.message}")
-                }
-            })
-        }
-        binding.buttonRollRoll5.setOnClickListener {
-            val whereClause = "ownerId = '${intent.getStringExtra(EXTRA_USERID)}'"
-            val queryBuilder = DataQueryBuilder.create()
-            queryBuilder.whereClause = whereClause
-            Backendless.Data.of(Ticket::class.java).find(queryBuilder, object :
-                AsyncCallback<MutableList<Ticket?>?> {
-                override fun handleResponse(response: MutableList<Ticket?>?) {
-                    if(response!![0]!!.amount >= 5) {
-                        response[0]!!.amount -= 5
-                        Backendless.Data.of(Ticket::class.java).save(response[0], object:
-                            AsyncCallback<Ticket> {
-                            override fun handleResponse(response: Ticket?) {
-                                updateTicketText()
-                                roll(1)
-                                roll(1)
-                                roll(1)
-                                roll(1)
-                                roll(1)
-                            }
-                            override fun handleFault(fault: BackendlessFault?) {
-                                Log.d(TAG, "handleFault: ${fault!!.message}")
-                            }
-                        })
-                    }
-                }
                 override fun handleFault(fault: BackendlessFault?) {
                     Log.d(TAG, "handleFault: ${fault!!.message}")
                 }
@@ -105,7 +74,7 @@ class RollActivity : AppCompatActivity() {
             if(rollValue == 1) {
                 var characterRoll = ((Math.random()*characterAmount)+1).toInt()
                 var character = Character()
-                if(characterRoll == 1) {
+                if(characterRoll in 1..2) {
                     character.name = "Arthur Boyle"
                     character.archetype = "Fighter"
                     character.ability1Description = "Boyle uses his sword to strike the enemy, doing 20 slashing damage"
@@ -124,7 +93,7 @@ class RollActivity : AppCompatActivity() {
                 }
                 notOwned(character)
             }
-            else if(rollValue in 2..10) {
+            else if(rollValue in 3..10) {
                 val jikanRestService = RetrofitHelper.getInstance().create(JikanRestService::class.java)
                 val characterIdCall = jikanRestService.getRandomCharacterID()
                 characterIdCall.enqueue(object: Callback<RandomCharacterID> {

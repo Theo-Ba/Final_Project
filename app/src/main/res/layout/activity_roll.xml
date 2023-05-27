@@ -27,21 +27,10 @@
         android:id="@+id/button_roll_roll1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Roll x1"
-        app:layout_constraintEnd_toStartOf="@+id/button_roll_roll5"
-        app:layout_constraintHorizontal_bias="0.5"
+        android:text="Roll"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView_roll_orb" />
-
-    <Button
-        android:id="@+id/button_roll_roll5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Roll X5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button_roll_roll1"
-        app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
     <TextView
         android:id="@+id/textView_roll_rates"
@@ -51,7 +40,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Rates: Character - 10%, Support Character - 90%"
+        android:text="Rates: Character - 20%, Support Character - 80%"
         android:textAlignment="center"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
