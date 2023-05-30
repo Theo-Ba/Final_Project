@@ -143,6 +143,7 @@ class CombatActivity : AppCompatActivity() {
 
     private fun turn1() {
         if(character1 != null && character1TempHealth > 0) {
+            binding.textViewCombatTurn.text = "It's ${character1!!.name}'s turn"
             turn1 = true
             binding.buttonCombatAbility11.setOnClickListener {
                 if(turn1) {
@@ -275,8 +276,29 @@ class CombatActivity : AppCompatActivity() {
         }
         if((character1TempHealth > 0 || character2TempHealth > 0 || character3TempHealth > 0) &&
             (enemy1TempHealth <= 0 && enemy2TempHealth <= 0 && enemy3TempHealth <= 0)) {
-            Toast.makeText(this, "You Won!", Toast.LENGTH_SHORT).show()
-            finish()
+            val whereClause = "ownerId = '${intent.getStringExtra(EXTRA_USERID)}'"
+            val queryBuilder = DataQueryBuilder.create()
+            queryBuilder.whereClause = whereClause
+            Backendless.Data.of(Ticket::class.java).find(queryBuilder, object :
+                AsyncCallback<MutableList<Ticket?>?> {
+                override fun handleResponse(response: MutableList<Ticket?>?) {
+                    response!![0]!!.amount += 1
+                    Backendless.Data.of(Ticket::class.java).save(response!![0], object:
+                        AsyncCallback<Ticket> {
+                        override fun handleResponse(response: Ticket?) {
+                            Toast.makeText(this@CombatActivity,
+                                "You Won! 1 ticket received", Toast.LENGTH_SHORT).show()
+                            finish()
+                        }
+                        override fun handleFault(fault: BackendlessFault?) {
+                            Log.d(RollActivity.TAG, "handleFault: ${fault!!.message}")
+                        }
+                    })
+                }
+                override fun handleFault(fault: BackendlessFault?) {
+                    Log.d(RollActivity.TAG, "handleFault: ${fault!!.message}")
+                }
+            })
         }
         if((character1TempHealth <= 0 && character2TempHealth <= 0 && character3TempHealth <= 0) &&
             (enemy1TempHealth > 0 || enemy2TempHealth > 0 || enemy3TempHealth > 0)) {
@@ -290,6 +312,7 @@ class CombatActivity : AppCompatActivity() {
 
     private fun turn2() {
         if(character2 != null && character2TempHealth > 0) {
+            binding.textViewCombatTurn.text = "It's ${character2!!.name}'s turn"
             turn2 = true
             binding.buttonCombatAbility21.setOnClickListener {
                 if(turn2) {
@@ -422,8 +445,29 @@ class CombatActivity : AppCompatActivity() {
         }
         if((character1TempHealth > 0 || character2TempHealth > 0 || character3TempHealth > 0) &&
             (enemy1TempHealth <= 0 && enemy2TempHealth <= 0 && enemy3TempHealth <= 0)) {
-            Toast.makeText(this, "You Won!", Toast.LENGTH_SHORT).show()
-            finish()
+            val whereClause = "ownerId = '${intent.getStringExtra(EXTRA_USERID)}'"
+            val queryBuilder = DataQueryBuilder.create()
+            queryBuilder.whereClause = whereClause
+            Backendless.Data.of(Ticket::class.java).find(queryBuilder, object :
+                AsyncCallback<MutableList<Ticket?>?> {
+                override fun handleResponse(response: MutableList<Ticket?>?) {
+                    response!![0]!!.amount += 1
+                    Backendless.Data.of(Ticket::class.java).save(response!![0], object:
+                        AsyncCallback<Ticket> {
+                        override fun handleResponse(response: Ticket?) {
+                            Toast.makeText(this@CombatActivity,
+                                "You Won! 1 ticket received", Toast.LENGTH_SHORT).show()
+                            finish()
+                        }
+                        override fun handleFault(fault: BackendlessFault?) {
+                            Log.d(RollActivity.TAG, "handleFault: ${fault!!.message}")
+                        }
+                    })
+                }
+                override fun handleFault(fault: BackendlessFault?) {
+                    Log.d(RollActivity.TAG, "handleFault: ${fault!!.message}")
+                }
+            })
         }
         if((character1TempHealth <= 0 && character2TempHealth <= 0 && character3TempHealth <= 0) &&
             (enemy1TempHealth > 0 || enemy2TempHealth > 0 || enemy3TempHealth > 0)) {
@@ -437,6 +481,7 @@ class CombatActivity : AppCompatActivity() {
 
     private fun turn3() {
         if(character3 != null && character3TempHealth > 0) {
+            binding.textViewCombatTurn.text = "It's ${character3!!.name}'s turn"
             turn3 = true
             binding.buttonCombatAbility31.setOnClickListener {
                 if(turn3) {
@@ -574,6 +619,7 @@ class CombatActivity : AppCompatActivity() {
 
     private fun turn4() {
         if(enemy1TempHealth > 0) {
+            binding.textViewCombatTurn.text = "It's ${enemy1!!.name}'s turn"
             var whoToAttack = ((Math.random()* 3)+1).toInt()
             var turnActive = true
             while(turnActive) {
@@ -610,6 +656,7 @@ class CombatActivity : AppCompatActivity() {
 
     private fun turn5() {
         if(enemy2TempHealth > 0) {
+            binding.textViewCombatTurn.text = "It's ${enemy2!!.name}'s turn"
             var whoToAttack = ((Math.random()* 3)+1).toInt()
             var turnActive = true
             while(turnActive) {
@@ -646,6 +693,7 @@ class CombatActivity : AppCompatActivity() {
 
     private fun turn6() {
         if(enemy3TempHealth > 0) {
+            binding.textViewCombatTurn.text = "It's ${enemy3!!.name}'s turn"
             var whoToAttack = ((Math.random()* 3)+1).toInt()
             var turnActive = true
             while(turnActive) {

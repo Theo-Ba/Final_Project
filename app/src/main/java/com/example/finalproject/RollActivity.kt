@@ -71,6 +71,7 @@ class RollActivity : AppCompatActivity() {
             Log.d(TAG, "$x")
             var rollValue = ((Math.random()*10)+1).toInt()
             //Toast.makeText(this, "$rollValue", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Rolling...", Toast.LENGTH_SHORT).show()
             if(rollValue in 1..2) {
                 var characterRoll = ((Math.random()*characterAmount)+1).toInt()
                 var character = Character()
@@ -248,10 +249,12 @@ class RollActivity : AppCompatActivity() {
             override fun onResponse(call: Call<CharacterData>, response: Response<CharacterData>) {
                 if(response.body() == null) {
                     Log.d(TAG, "response is null")
+                    Toast.makeText(this@RollActivity, "Still Rolling...", Toast.LENGTH_SHORT).show()
                     getCharacterId()
                 }
                 else if(response.body()!!.data.favorites == 0) {
                     Log.d(TAG, "favorites is 0")
+                    Toast.makeText(this@RollActivity, "Still Rolling...", Toast.LENGTH_SHORT).show()
                     getCharacterId()
                 }
                 else {
@@ -266,6 +269,7 @@ class RollActivity : AppCompatActivity() {
             override fun onFailure(call: Call<CharacterData>, t: Throwable) {
                 Log.d(TAG, "2 onFailure: ${t.message}")
                 Log.d(TAG, "getting id")
+                Toast.makeText(this@RollActivity, "Still Rolling...", Toast.LENGTH_SHORT).show()
                 getCharacterId()
             }
         })
