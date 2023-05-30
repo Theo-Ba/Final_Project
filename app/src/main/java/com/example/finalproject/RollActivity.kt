@@ -25,7 +25,7 @@ class RollActivity : AppCompatActivity() {
         val TAG = "RollActivity"
     }
 
-    var characterAmount = 1
+    var characterAmount = 3
 
     private lateinit var binding: ActivityRollBinding
 
@@ -70,11 +70,11 @@ class RollActivity : AppCompatActivity() {
             x++
             Log.d(TAG, "$x")
             var rollValue = ((Math.random()*10)+1).toInt()
-            Toast.makeText(this, "$rollValue", Toast.LENGTH_SHORT).show()
-            if(rollValue == 1) {
+            //Toast.makeText(this, "$rollValue", Toast.LENGTH_SHORT).show()
+            if(rollValue in 1..2) {
                 var characterRoll = ((Math.random()*characterAmount)+1).toInt()
                 var character = Character()
-                if(characterRoll in 1..2) {
+                if(characterRoll == 1) {
                     character.name = "Arthur Boyle"
                     character.archetype = "Fighter"
                     character.ability1Description = "Boyle uses his sword to strike the enemy, doing 20 slashing damage"
@@ -90,6 +90,40 @@ class RollActivity : AppCompatActivity() {
                     character.title = "Fire Force"
                     character.ability1DamageType = "slashing"
                     character.ability2DamageType = "fire"
+                }
+                if(characterRoll == 2) {
+                    character.name = "Shinei Nouzen"
+                    character.archetype = "Pilot"
+                    character.ability1Description = "Shin fires the central cannon at the enemy, doing 20 piercing damage"
+                    character.id = 150823
+                    character.ability1 = "Main Cannon"
+                    character.ability1Damage = 20
+                    character.ability2 = "Slashing Blades"
+                    character.ability2Damage = 30
+                    character.ability2Description = "Shin lunges the mech forwards and uses the two blades located at the front, doing 30 slashing damage"
+                    character.health = 100
+                    character.ownerId = intent.getStringExtra(EXTRA_USERID).toString()
+                    character.imageAddress = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRI2Df3VbVy7BU9e9hewEPR9oTju9suI2xgkVxQmpuixTo9UkarTdrnmrH9-zAJSeuhQnjImEgQYyI&usqp=CAU&ec=48600112"
+                    character.title = "86 [EIGHTY-SIX]"
+                    character.ability1DamageType = "piercing"
+                    character.ability2DamageType = "slashing"
+                }
+                if(characterRoll == 3) {
+                    character.name = "Erwin Smith"
+                    character.archetype = "Leader"
+                    character.ability1Description = "Erwin uses his ODM to slash the enemy, doing 10 slashing damage"
+                    character.id = 46496
+                    character.ability1 = "ODM"
+                    character.ability1Damage = 10
+                    character.ability2 = "Sasageyo"
+                    character.ability2Damage = 30
+                    character.ability2Description = "Erwin yells out, inspiring one troop, which gives an addition 30 damage to their next attack"
+                    character.health = 100
+                    character.ownerId = intent.getStringExtra(EXTRA_USERID).toString()
+                    character.imageAddress = "https://cdn.myanimelist.net/images/characters/13/206433.jpg"
+                    character.title = "Attack on Titan"
+                    character.ability1DamageType = "slashing"
+                    character.ability2DamageType = "support"
                 }
                 notOwned(character)
             }

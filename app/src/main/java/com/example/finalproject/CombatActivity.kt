@@ -36,6 +36,9 @@ class CombatActivity : AppCompatActivity() {
     private var turn1 = false
     private var turn2 = false
     private var turn3 = false
+    var boost1 = 0
+    var boost2 = 0
+    var boost3 = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,6 +81,7 @@ class CombatActivity : AppCompatActivity() {
                         binding.buttonCombatAbility12.text = character1!!.ability2
                     }
                     if(character2 != null) {
+                        character2TempHealth = character2!!.health
                         binding.groupCombatSlot2.isVisible = true
                         binding.textViewCombatName2.text = character2!!.name
                         binding.textViewCombatHealth2.text = "${character2!!.health}/${character2!!.health}"
@@ -85,6 +89,7 @@ class CombatActivity : AppCompatActivity() {
                         binding.buttonCombatAbility22.text = character2!!.ability2
                     }
                     if(character3 != null) {
+                        character3TempHealth = character3!!.health
                         binding.groupCombatSlot3.isVisible = true
                         binding.textViewCombatName3.text = character3!!.name
                         binding.textViewCombatHealth3.text = "${character3!!.health}/${character3!!.health}"
@@ -137,46 +142,68 @@ class CombatActivity : AppCompatActivity() {
     }
 
     private fun turn1() {
-        if(character1 != null) {
+        if(character1 != null && character1TempHealth > 0) {
             turn1 = true
             binding.buttonCombatAbility11.setOnClickListener {
                 if(turn1) {
                     var attacking = true
                     var abilityDamage = character1!!.ability1Damage
-                    binding.imageViewCombatImage4.setOnClickListener {
-                        if(attacking) {
-                            enemy1TempHealth -= abilityDamage
-                            binding.textViewCombatHealth4.text = "${enemy1TempHealth}/${enemy1.health}"
-                            if(enemy1TempHealth <= 0) {
-                                //binding.groupCombatEnemy1.isGone = true
-                            }
-                            attacking = false
-                            turn1 = false
+                    if(character1!!.equippedSupportsPower != null) {
+                        abilityDamage += (character1!!.equippedSupportsPower)/100
+                    }
+                    if(boost1 > 0) {
+                        abilityDamage += boost1
+                        boost1 = 0
+                    }
+                    if(character1!!.ability1DamageType == "support") {
+                        binding.textViewCombatName2.setOnClickListener {
+                            boost2 = abilityDamage
+                            turn2()
+                        }
+                        binding.textViewCombatName3.setOnClickListener {
+                            boost3 = abilityDamage
                             turn2()
                         }
                     }
-                    binding.imageViewCombatImage5.setOnClickListener {
-                        if(attacking) {
-                            enemy2TempHealth -= abilityDamage
-                            binding.textViewCombatHealth5.text = "${enemy2TempHealth}/${enemy2.health}"
-                            if(enemy2TempHealth <= 0) {
-                                //binding.groupCombatEnemy2.isGone = true
+                    else {
+                        binding.imageViewCombatImage4.setOnClickListener {
+                            if (attacking) {
+                                enemy1TempHealth -= abilityDamage
+                                binding.textViewCombatHealth4.text =
+                                    "${enemy1TempHealth}/${enemy1.health}"
+                                if (enemy1TempHealth <= 0) {
+                                    //binding.groupCombatEnemy1.isGone = true
+                                }
+                                attacking = false
+                                turn1 = false
+                                turn2()
                             }
-                            attacking = false
-                            turn1 = false
-                            turn2()
                         }
-                    }
-                    binding.imageViewCombatImage6.setOnClickListener {
-                        if(attacking) {
-                            enemy3TempHealth -= abilityDamage
-                            binding.textViewCombatHealth6.text = "${enemy3TempHealth}/${enemy3.health}"
-                            if(enemy3TempHealth <= 0) {
-                                //binding.groupCombatEnemy1.isGone = true
+                        binding.imageViewCombatImage5.setOnClickListener {
+                            if (attacking) {
+                                enemy2TempHealth -= abilityDamage
+                                binding.textViewCombatHealth5.text =
+                                    "${enemy2TempHealth}/${enemy2.health}"
+                                if (enemy2TempHealth <= 0) {
+                                    //binding.groupCombatEnemy2.isGone = true
+                                }
+                                attacking = false
+                                turn1 = false
+                                turn2()
                             }
-                            attacking = false
-                            turn1 = false
-                            turn2()
+                        }
+                        binding.imageViewCombatImage6.setOnClickListener {
+                            if (attacking) {
+                                enemy3TempHealth -= abilityDamage
+                                binding.textViewCombatHealth6.text =
+                                    "${enemy3TempHealth}/${enemy3.health}"
+                                if (enemy3TempHealth <= 0) {
+                                    //binding.groupCombatEnemy1.isGone = true
+                                }
+                                attacking = false
+                                turn1 = false
+                                turn2()
+                            }
                         }
                     }
                 }
@@ -185,40 +212,62 @@ class CombatActivity : AppCompatActivity() {
                 if(turn1) {
                     var attacking = true
                     var abilityDamage = character1!!.ability2Damage
-                    binding.imageViewCombatImage4.setOnClickListener {
-                        if(attacking) {
-                            enemy1TempHealth -= abilityDamage
-                            binding.textViewCombatHealth4.text = "${enemy1TempHealth}/${enemy1.health}"
-                            if(enemy1TempHealth <= 0) {
-                                //binding.groupCombatEnemy1.isGone = true
-                            }
-                            attacking = false
-                            turn1 = false
+                    if(character1!!.equippedSupportsPower != null) {
+                        abilityDamage += (character1!!.equippedSupportsPower)/100
+                    }
+                    if(boost1 > 0) {
+                        abilityDamage += boost1
+                        boost1 = 0
+                    }
+                    if(character1!!.ability2DamageType == "support") {
+                        binding.textViewCombatName2.setOnClickListener {
+                            boost2 = abilityDamage
+                            turn2()
+                        }
+                        binding.textViewCombatName3.setOnClickListener {
+                            boost3 = abilityDamage
                             turn2()
                         }
                     }
-                    binding.imageViewCombatImage5.setOnClickListener {
-                        if(attacking) {
-                            enemy2TempHealth -= abilityDamage
-                            binding.textViewCombatHealth5.text = "${enemy2TempHealth}/${enemy2.health}"
-                            if(enemy2TempHealth <= 0) {
-                                //binding.groupCombatEnemy2.isGone = true
+                    else {
+                        binding.imageViewCombatImage4.setOnClickListener {
+                            if (attacking) {
+                                enemy1TempHealth -= abilityDamage
+                                binding.textViewCombatHealth4.text =
+                                    "${enemy1TempHealth}/${enemy1.health}"
+                                if (enemy1TempHealth <= 0) {
+                                    //binding.groupCombatEnemy1.isGone = true
+                                }
+                                attacking = false
+                                turn1 = false
+                                turn2()
                             }
-                            attacking = false
-                            turn1 = false
-                            turn2()
                         }
-                    }
-                    binding.imageViewCombatImage6.setOnClickListener {
-                        if(attacking) {
-                            enemy3TempHealth -= abilityDamage
-                            binding.textViewCombatHealth6.text = "${enemy3TempHealth}/${enemy3.health}"
-                            if(enemy3TempHealth <= 0) {
-                                //binding.groupCombatEnemy1.isGone = true
+                        binding.imageViewCombatImage5.setOnClickListener {
+                            if (attacking) {
+                                enemy2TempHealth -= abilityDamage
+                                binding.textViewCombatHealth5.text =
+                                    "${enemy2TempHealth}/${enemy2.health}"
+                                if (enemy2TempHealth <= 0) {
+                                    //binding.groupCombatEnemy2.isGone = true
+                                }
+                                attacking = false
+                                turn1 = false
+                                turn2()
                             }
-                            attacking = false
-                            turn1 = false
-                            turn2()
+                        }
+                        binding.imageViewCombatImage6.setOnClickListener {
+                            if (attacking) {
+                                enemy3TempHealth -= abilityDamage
+                                binding.textViewCombatHealth6.text =
+                                    "${enemy3TempHealth}/${enemy3.health}"
+                                if (enemy3TempHealth <= 0) {
+                                    //binding.groupCombatEnemy1.isGone = true
+                                }
+                                attacking = false
+                                turn1 = false
+                                turn2()
+                            }
                         }
                     }
                 }
@@ -240,46 +289,68 @@ class CombatActivity : AppCompatActivity() {
     }
 
     private fun turn2() {
-        if(character2 != null) {
+        if(character2 != null && character2TempHealth > 0) {
             turn2 = true
             binding.buttonCombatAbility21.setOnClickListener {
                 if(turn2) {
                     var attacking = true
                     var abilityDamage = character2!!.ability1Damage
-                    binding.imageViewCombatImage4.setOnClickListener {
-                        if(attacking) {
-                            enemy1TempHealth -= abilityDamage
-                            binding.textViewCombatHealth4.text = "${enemy1TempHealth}/${enemy1.health}"
-                            if(enemy1TempHealth <= 0) {
-                                //binding.groupCombatEnemy1.isGone = true
-                            }
-                            attacking = false
-                            turn2 = false
+                    if(character2!!.equippedSupportsPower != null) {
+                        abilityDamage += (character2!!.equippedSupportsPower)/100
+                    }
+                    if(boost2 > 0) {
+                        abilityDamage += boost2
+                        boost2 = 0
+                    }
+                    if(character2!!.ability1DamageType == "support") {
+                        binding.textViewCombatName1.setOnClickListener {
+                            boost1 = abilityDamage
+                            turn3()
+                        }
+                        binding.textViewCombatName3.setOnClickListener {
+                            boost3 = abilityDamage
                             turn3()
                         }
                     }
-                    binding.imageViewCombatImage5.setOnClickListener {
-                        if(attacking) {
-                            enemy2TempHealth -= abilityDamage
-                            binding.textViewCombatHealth5.text = "${enemy2TempHealth}/${enemy2.health}"
-                            if(enemy2TempHealth <= 0) {
-                                //binding.groupCombatEnemy2.isGone = true
+                    else {
+                        binding.imageViewCombatImage4.setOnClickListener {
+                            if (attacking) {
+                                enemy1TempHealth -= abilityDamage
+                                binding.textViewCombatHealth4.text =
+                                    "${enemy1TempHealth}/${enemy1.health}"
+                                if (enemy1TempHealth <= 0) {
+                                    //binding.groupCombatEnemy1.isGone = true
+                                }
+                                attacking = false
+                                turn2 = false
+                                turn3()
                             }
-                            attacking = false
-                            turn2 = false
-                            turn3()
                         }
-                    }
-                    binding.imageViewCombatImage6.setOnClickListener {
-                        if(attacking) {
-                            enemy3TempHealth -= abilityDamage
-                            binding.textViewCombatHealth6.text = "${enemy3TempHealth}/${enemy3.health}"
-                            if(enemy3TempHealth <= 0) {
-                                //binding.groupCombatEnemy1.isGone = true
+                        binding.imageViewCombatImage5.setOnClickListener {
+                            if (attacking) {
+                                enemy2TempHealth -= abilityDamage
+                                binding.textViewCombatHealth5.text =
+                                    "${enemy2TempHealth}/${enemy2.health}"
+                                if (enemy2TempHealth <= 0) {
+                                    //binding.groupCombatEnemy2.isGone = true
+                                }
+                                attacking = false
+                                turn2 = false
+                                turn3()
                             }
-                            attacking = false
-                            turn2 = false
-                            turn3()
+                        }
+                        binding.imageViewCombatImage6.setOnClickListener {
+                            if (attacking) {
+                                enemy3TempHealth -= abilityDamage
+                                binding.textViewCombatHealth6.text =
+                                    "${enemy3TempHealth}/${enemy3.health}"
+                                if (enemy3TempHealth <= 0) {
+                                    //binding.groupCombatEnemy1.isGone = true
+                                }
+                                attacking = false
+                                turn2 = false
+                                turn3()
+                            }
                         }
                     }
                 }
@@ -288,44 +359,76 @@ class CombatActivity : AppCompatActivity() {
                 if(turn2) {
                     var attacking = true
                     var abilityDamage = character2!!.ability2Damage
-                    binding.imageViewCombatImage4.setOnClickListener {
-                        if(attacking) {
-                            enemy1TempHealth -= abilityDamage
-                            binding.textViewCombatHealth4.text = "${enemy1TempHealth}/${enemy1.health}"
-                            if(enemy1TempHealth <= 0) {
-                                //binding.groupCombatEnemy1.isGone = true
-                            }
-                            attacking = false
-                            turn2 = false
+                    if(character2!!.equippedSupportsPower != null) {
+                        abilityDamage += (character2!!.equippedSupportsPower)/100
+                    }
+                    if(boost2 > 0) {
+                        abilityDamage += boost2
+                        boost2 = 0
+                    }
+                    if(character2!!.ability2DamageType == "support") {
+                        binding.textViewCombatName1.setOnClickListener {
+                            boost1 = abilityDamage
+                            turn3()
+                        }
+                        binding.textViewCombatName3.setOnClickListener {
+                            boost3 = abilityDamage
                             turn3()
                         }
                     }
-                    binding.imageViewCombatImage5.setOnClickListener {
-                        if(attacking) {
-                            enemy2TempHealth -= abilityDamage
-                            binding.textViewCombatHealth5.text = "${enemy2TempHealth}/${enemy2.health}"
-                            if(enemy2TempHealth <= 0) {
-                                //binding.groupCombatEnemy2.isGone = true
+                    else {
+                        binding.imageViewCombatImage4.setOnClickListener {
+                            if (attacking) {
+                                enemy1TempHealth -= abilityDamage
+                                binding.textViewCombatHealth4.text =
+                                    "${enemy1TempHealth}/${enemy1.health}"
+                                if (enemy1TempHealth <= 0) {
+                                    //binding.groupCombatEnemy1.isGone = true
+                                }
+                                attacking = false
+                                turn2 = false
+                                turn3()
                             }
-                            attacking = false
-                            turn2 = false
-                            turn3()
                         }
-                    }
-                    binding.imageViewCombatImage6.setOnClickListener {
-                        if(attacking) {
-                            enemy3TempHealth -= abilityDamage
-                            binding.textViewCombatHealth6.text = "${enemy3TempHealth}/${enemy3.health}"
-                            if(enemy3TempHealth <= 0) {
-                                //binding.groupCombatEnemy1.isGone = true
+                        binding.imageViewCombatImage5.setOnClickListener {
+                            if (attacking) {
+                                enemy2TempHealth -= abilityDamage
+                                binding.textViewCombatHealth5.text =
+                                    "${enemy2TempHealth}/${enemy2.health}"
+                                if (enemy2TempHealth <= 0) {
+                                    //binding.groupCombatEnemy2.isGone = true
+                                }
+                                attacking = false
+                                turn2 = false
+                                turn3()
                             }
-                            attacking = false
-                            turn2 = false
-                            turn3()
+                        }
+                        binding.imageViewCombatImage6.setOnClickListener {
+                            if (attacking) {
+                                enemy3TempHealth -= abilityDamage
+                                binding.textViewCombatHealth6.text =
+                                    "${enemy3TempHealth}/${enemy3.health}"
+                                if (enemy3TempHealth <= 0) {
+                                    //binding.groupCombatEnemy1.isGone = true
+                                }
+                                attacking = false
+                                turn2 = false
+                                turn3()
+                            }
                         }
                     }
                 }
             }
+        }
+        if((character1TempHealth > 0 || character2TempHealth > 0 || character3TempHealth > 0) &&
+            (enemy1TempHealth <= 0 && enemy2TempHealth <= 0 && enemy3TempHealth <= 0)) {
+            Toast.makeText(this, "You Won!", Toast.LENGTH_SHORT).show()
+            finish()
+        }
+        if((character1TempHealth <= 0 && character2TempHealth <= 0 && character3TempHealth <= 0) &&
+            (enemy1TempHealth > 0 || enemy2TempHealth > 0 || enemy3TempHealth > 0)) {
+            Toast.makeText(this, "You Lost", Toast.LENGTH_SHORT).show()
+            finish()
         }
         if(character2 == null) {
             turn3()
@@ -333,46 +436,68 @@ class CombatActivity : AppCompatActivity() {
     }
 
     private fun turn3() {
-        if(character3 != null) {
+        if(character3 != null && character3TempHealth > 0) {
             turn3 = true
             binding.buttonCombatAbility31.setOnClickListener {
                 if(turn3) {
                     var attacking = true
                     var abilityDamage = character3!!.ability1Damage
-                    binding.imageViewCombatImage4.setOnClickListener {
-                        if(attacking) {
-                            enemy1TempHealth -= abilityDamage
-                            binding.textViewCombatHealth4.text = "${enemy1TempHealth}/${enemy1.health}"
-                            if(enemy1TempHealth <= 0) {
-                                //binding.groupCombatEnemy1.isGone = true
-                            }
-                            attacking = false
-                            turn3 = false
+                    if(character3!!.equippedSupportsPower != null) {
+                        abilityDamage += (character2!!.equippedSupportsPower)/100
+                    }
+                    if(boost3 > 0) {
+                        abilityDamage += boost3
+                        boost3 = 0
+                    }
+                    if(character3!!.ability1DamageType == "support") {
+                        binding.textViewCombatName1.setOnClickListener {
+                            boost1 = abilityDamage
+                            turn4()
+                        }
+                        binding.textViewCombatName2.setOnClickListener {
+                            boost2 = abilityDamage
                             turn4()
                         }
                     }
-                    binding.imageViewCombatImage5.setOnClickListener {
-                        if(attacking) {
-                            enemy2TempHealth -= abilityDamage
-                            binding.textViewCombatHealth5.text = "${enemy2TempHealth}/${enemy2.health}"
-                            if(enemy2TempHealth <= 0) {
-                                //binding.groupCombatEnemy2.isGone = true
+                    else {
+                        binding.imageViewCombatImage4.setOnClickListener {
+                            if (attacking) {
+                                enemy1TempHealth -= abilityDamage
+                                binding.textViewCombatHealth4.text =
+                                    "${enemy1TempHealth}/${enemy1.health}"
+                                if (enemy1TempHealth <= 0) {
+                                    //binding.groupCombatEnemy1.isGone = true
+                                }
+                                attacking = false
+                                turn3 = false
+                                turn4()
                             }
-                            attacking = false
-                            turn3 = false
-                            turn4()
                         }
-                    }
-                    binding.imageViewCombatImage6.setOnClickListener {
-                        if(attacking) {
-                            enemy3TempHealth -= abilityDamage
-                            binding.textViewCombatHealth6.text = "${enemy3TempHealth}/${enemy3.health}"
-                            if(enemy3TempHealth <= 0) {
-                                //binding.groupCombatEnemy1.isGone = true
+                        binding.imageViewCombatImage5.setOnClickListener {
+                            if (attacking) {
+                                enemy2TempHealth -= abilityDamage
+                                binding.textViewCombatHealth5.text =
+                                    "${enemy2TempHealth}/${enemy2.health}"
+                                if (enemy2TempHealth <= 0) {
+                                    //binding.groupCombatEnemy2.isGone = true
+                                }
+                                attacking = false
+                                turn3 = false
+                                turn4()
                             }
-                            attacking = false
-                            turn3 = false
-                            turn4()
+                        }
+                        binding.imageViewCombatImage6.setOnClickListener {
+                            if (attacking) {
+                                enemy3TempHealth -= abilityDamage
+                                binding.textViewCombatHealth6.text =
+                                    "${enemy3TempHealth}/${enemy3.health}"
+                                if (enemy3TempHealth <= 0) {
+                                    //binding.groupCombatEnemy1.isGone = true
+                                }
+                                attacking = false
+                                turn3 = false
+                                turn4()
+                            }
                         }
                     }
                 }
@@ -381,40 +506,62 @@ class CombatActivity : AppCompatActivity() {
                 if(turn3) {
                     var attacking = true
                     var abilityDamage = character3!!.ability2Damage
-                    binding.imageViewCombatImage4.setOnClickListener {
-                        if(attacking) {
-                            enemy1TempHealth -= abilityDamage
-                            binding.textViewCombatHealth4.text = "${enemy1TempHealth}/${enemy1.health}"
-                            if(enemy1TempHealth <= 0) {
-                                //binding.groupCombatEnemy1.isGone = true
-                            }
-                            attacking = false
-                            turn3 = false
+                    if(character3!!.equippedSupportsPower != null) {
+                        abilityDamage += (character2!!.equippedSupportsPower)/100
+                    }
+                    if(boost3 > 0) {
+                        abilityDamage += boost3
+                        boost3 = 0
+                    }
+                    if(character3!!.ability2DamageType == "support") {
+                        binding.textViewCombatName1.setOnClickListener {
+                            boost1 = abilityDamage
+                            turn4()
+                        }
+                        binding.textViewCombatName2.setOnClickListener {
+                            boost2 = abilityDamage
                             turn4()
                         }
                     }
-                    binding.imageViewCombatImage5.setOnClickListener {
-                        if(attacking) {
-                            enemy2TempHealth -= abilityDamage
-                            binding.textViewCombatHealth5.text = "${enemy2TempHealth}/${enemy2.health}"
-                            if(enemy2TempHealth <= 0) {
-                                //binding.groupCombatEnemy2.isGone = true
+                    else {
+                        binding.imageViewCombatImage4.setOnClickListener {
+                            if (attacking) {
+                                enemy1TempHealth -= abilityDamage
+                                binding.textViewCombatHealth4.text =
+                                    "${enemy1TempHealth}/${enemy1.health}"
+                                if (enemy1TempHealth <= 0) {
+                                    //binding.groupCombatEnemy1.isGone = true
+                                }
+                                attacking = false
+                                turn3 = false
+                                turn4()
                             }
-                            attacking = false
-                            turn3 = false
-                            turn4()
                         }
-                    }
-                    binding.imageViewCombatImage6.setOnClickListener {
-                        if(attacking) {
-                            enemy3TempHealth -= abilityDamage
-                            binding.textViewCombatHealth6.text = "${enemy3TempHealth}/${enemy3.health}"
-                            if(enemy3TempHealth <= 0) {
-                                //binding.groupCombatEnemy1.isGone = true
+                        binding.imageViewCombatImage5.setOnClickListener {
+                            if (attacking) {
+                                enemy2TempHealth -= abilityDamage
+                                binding.textViewCombatHealth5.text =
+                                    "${enemy2TempHealth}/${enemy2.health}"
+                                if (enemy2TempHealth <= 0) {
+                                    //binding.groupCombatEnemy2.isGone = true
+                                }
+                                attacking = false
+                                turn3 = false
+                                turn4()
                             }
-                            attacking = false
-                            turn3 = false
-                            turn4()
+                        }
+                        binding.imageViewCombatImage6.setOnClickListener {
+                            if (attacking) {
+                                enemy3TempHealth -= abilityDamage
+                                binding.textViewCombatHealth6.text =
+                                    "${enemy3TempHealth}/${enemy3.health}"
+                                if (enemy3TempHealth <= 0) {
+                                    //binding.groupCombatEnemy1.isGone = true
+                                }
+                                attacking = false
+                                turn3 = false
+                                turn4()
+                            }
                         }
                     }
                 }
